@@ -40,11 +40,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const response = await fetch(
             `https://www.googleapis.com/youtube/v3/commentThreads?videoId=${id}&part=snippet&key=${process.env.YOUTUBE_API as string}&maxResults=100`
         );
+        console.log(response);
         if (!response.ok) {
             console.log(await response.text());
             throw new Error("something went wrong getting comments");
-
-            return;
         }
         const data = (await response.json()) as Data;
         data.items.forEach((item) => {
@@ -53,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (data?.nextPageToken) {
             allItems = await refetchIfNextPageToken(id as string, data.nextPageToken, items);
         }
-
+        console.log(allItems);
         const res = await fetch("https://api.cohere.ai/classify", {
             method: "POST",
             headers: {
@@ -76,7 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (error instanceof Error) {
             throw new Error(error.message);
         }
-        return;
+        throw new Error("something went wrong");
     }
     res.status(200).json({ items: dataAnalysis.classifications });
     return;
