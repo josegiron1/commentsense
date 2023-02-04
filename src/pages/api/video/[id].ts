@@ -217,31 +217,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (data?.nextPageToken) {
             allItems = await refetchIfNextPageToken(id as string, data.nextPageToken, items);
         }
-        console.log(allItems);
-        const res = await fetch("https://api.cohere.ai/classify", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${process.env.COHERE_API as string}`,
-            },
-            body: JSON.stringify({
-                inputs: allItems ? allItems : items,
-                examples: examples,
-                model: "large",
-                truncate: "END",
-                outputIndicator: "Classify this video comments",
-                taskDescription: "Classify these video comments as positive, negative, or neutral",
-            }),
-        });
-
-        dataAnalysis = await res.json();
-    } catch (error) {
-        console.log(error);
-        if (error instanceof Error) {
-            throw new Error(error.message);
+     } catch (error) {
+            console.log(error);
+            if (error instanceof Error) {
+                throw new Error(error.message);
+            }
+            throw new Error("something went wrong");
         }
-        throw new Error("something went wrong");
-    }
-    res.status(200).json({ items: dataAnalysis.classifications });
-    return;
+        res.status(200).json({ items: allItems ? allItems : items });
+        return;
+    //     const res = await fetch("https://api.cohere.ai/classify", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: `Bearer ${process.env.COHERE_API as string}`,
+    //         },
+    //         body: JSON.stringify({
+    //             inputs: allItems ? allItems : items,
+    //             examples: examples,
+    //             model: "large",
+    //             truncate: "END",
+    //             outputIndicator: "Classify this video comments",
+    //             taskDescription: "Classify these video comments as positive, negative, or neutral",
+    //         }),
+    //     });
+
+    //     dataAnalysis = await res.json();
+    // } catch (error) {
+    //     console.log(error);
+    //     if (error instanceof Error) {
+    //         throw new Error(error.message);
+    //     }
+    //     throw new Error("something went wrong");
+    // }
+    // res.status(200).json({ items: dataAnalysis.classifications });
 }
