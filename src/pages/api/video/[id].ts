@@ -42,6 +42,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
         if (!response.ok) {
             console.log(await response.text());
+            throw new Error("something went wrong getting comments");
+
             return;
         }
         const data = (await response.json()) as Data;
