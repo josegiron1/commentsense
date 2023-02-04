@@ -30,7 +30,13 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="h-screen flex flex-col justify-between">
-                <h1 className="text-2xl text-center mx-auto">Comment Sense</h1>
+                <div></div>
+                <div className="flex flex-col justify-center items-center">
+                    <div className="border p-3 rounded">
+                        <h1 className="text-2xl mr-3">Comment</h1>
+                        <h1 className="text-2xl ml-9">Sense</h1>
+                    </div>
+                </div>
                 <div className="flex flex-col justify-center items-center gap-2">
                     <div className="flex justify-center items-center gap-1 flex-wrap">
                         <label className="text-lg">Add youtube video link: </label>
