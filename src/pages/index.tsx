@@ -1,13 +1,14 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import { useState } from "react";
 import { getCommentsAnalyze } from "@/fetch.service";
-
-const inter = Inter({ subsets: ["latin"] });
+import Balancer from "react-wrap-balancer";
+import Image from "next/image";
+import DataPagination from "@/components/DataPagination";
 
 export default function Home() {
     const [videoLink, setVideoLink] = useState<string>("");
     const [commentsAnalyze, setCommentsAnalyze] = useState<any>();
+    const [classifications, setClassifications] = useState<any>({ positive: 0, negative: 0, neutral: 0 });
 
     const handleVideoLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVideoLink(e.target.value);
@@ -17,8 +18,18 @@ export default function Home() {
         if (!videoLink) return;
         const videoId = videoLink.split("=")[1];
         const res = await getCommentsAnalyze(videoId);
-        console.log(res);
-        setCommentsAnalyze(res.items);
+        if (!("items" in res)) throw new Error("No items in response");
+        setCommentsAnalyze(res?.items);
+
+        for (const item of res?.items) {
+            if (item.prediction === "positive") {
+                setClassifications((prev: any) => ({ ...prev, positive: prev.positive + 1 }));
+            } else if (item.prediction === "negative") {
+                setClassifications((prev: any) => ({ ...prev, negative: prev.negative + 1 }));
+            } else {
+                setClassifications((prev: any) => ({ ...prev, neutral: prev.neutral + 1 }));
+            }
+        }
     };
 
     return (
@@ -29,34 +40,41 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className="h-screen flex flex-col justify-between">
-                <div></div>
+            <main className="min-h-screen flex flex-col justify-between p-6 gap-6 bg-gradient-to-t from-white via-[#dfe9f3]">
                 <div className="flex flex-col justify-center items-center">
-                    <div className="border p-3 rounded">
-                        <h1 className="text-2xl mr-3">Comment</h1>
-                        <h1 className="text-2xl ml-9">Sense</h1>
-                    </div>
+                    <Image src="/comment-sense-high-resolution-logo-black-on-transparent-background.png" alt="logo" width={300} height={300} />
                 </div>
-                <div className="flex flex-col justify-center items-center gap-2">
-                    <div className="flex justify-center items-center gap-1 flex-wrap">
-                        <label className="text-lg">Add youtube video link: </label>
-                        <input onChange={handleVideoLinkChange} type="text" className="border-2 rounded border-black md:w-96" />
-                    </div>
+                <div className="flex flex-col gap-3 max-w-[600px] mx-auto">
+                    <h1 className="text-[24px] text-center">What is CommentSense?</h1>
+                    <p className="text-[16px]">
+                        This app would allow users to input a YouTube video URL and retrieve the comments associated with that video. The app would
+                        then perform sentiment analysis on each comment to determine the overall sentiment expressed in the comment. This sentiment
+                        analysis would classify the comment as positive, negative, or neutral based on the language used in the comment. This app can
+                        be useful for content creators and marketers to better understand their audience and the sentiment towards their content. It
+                        can also be used by researchers to gather and analyze data on public opinion on various topics.
+                    </p>
+                </div>
+                <div className="flex flex-col justify-center items-center gap-3">
+                    <label className="text-lg">Add youtube video link: </label>
+                    <input onChange={handleVideoLinkChange} type="text" className="border-2 rounded bg-inherit border-black w-full sm:w-1/2 " />
                     <button onClick={handleSubmit} className="bg-black text-white rounded px-2 py-1">
                         Submit
                     </button>
                 </div>
+                {commentsAnalyze && (
+                    <>
+                        <div className="text-center">Comments - {JSON.stringify(classifications)}</div>
+                        <DataPagination data={commentsAnalyze} />
+                        <p>
+                            ***Disclaimer: This app provides sentiment analysis of comments on YouTube videos based on data from OpenAI&apos;s ChatGPT model.
+                            Please note that the video author and YouTube have the right to remove comments at their discretion, which may affect the
+                            accuracy of the sentiment analysis. The results generated by the app should be used for informational purposes only and
+                            should not be considered as a substitute for professional judgement.
+                        </p>
+                    </>
+                )}
 
-                <div>
-                    {commentsAnalyze?.length &&
-                        commentsAnalyze?.map((comment: any) => (
-                            <div className="flex flex-col justify-center items-center text-sm m-2" key={comment.id}>
-                                <p>{comment.input}</p>
-                                <p>{comment.prediction}</p>
-                            </div>
-                        ))}
-                </div>
-
+                <div></div>
                 <div></div>
             </main>
         </>

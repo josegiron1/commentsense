@@ -216,8 +216,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (data?.nextPageToken) {
             allItems = await refetchIfNextPageToken(id as string, data.nextPageToken, items);
         }
-    // res.status(200).json({ items: allItems ? allItems : items });
-    // return;
         const res = await fetch("https://api.cohere.ai/classify", {
             method: "POST",
             headers: {
