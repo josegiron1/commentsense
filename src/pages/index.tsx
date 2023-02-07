@@ -75,7 +75,9 @@ export default function Home() {
                             then performs sentiment analysis on each comment to determine the overall sentiment expressed in the comment. This
                             sentiment analysis classifies the comment as positive, negative, or neutral based on the language used in the comment.
                             This app can be useful for content creators and marketers to better understand their audience and the sentiment toward
-                            their content. It can also be used by researchers to gather and analyze data on public opinion on various topics.
+                            their content. It can also be used by researchers to gather and analyze data on public opinion on various topics. The app
+                            is designed to work exclusively with the English language, providing a professional and highly accurate solution for
+                            sentiment analysis.
                         </p>
                     </div>
                 )}
@@ -137,8 +139,18 @@ export default function Home() {
                 <div></div>
                 <div>
                     <div className="flex gap-6 justify-center">
-                        <SocialMediaItem text="@gdevmaster" href="https://twitter.com/gdevmaster" src="/52tweet_twitter_twitter logo_icon.svg" alt="twitter logo" />
-                        <SocialMediaItem text="gironjose5" href="https://www.linkedin.com/in/gironjose5/" src="/linkedin_logo_icon.svg" alt="linkedin logo" />
+                        <SocialMediaItem
+                            text="@gdevmaster"
+                            href="https://twitter.com/gdevmaster"
+                            src="/52tweet_twitter_twitter logo_icon.svg"
+                            alt="twitter logo"
+                        />
+                        <SocialMediaItem
+                            text="gironjose5"
+                            href="https://www.linkedin.com/in/gironjose5/"
+                            src="/linkedin_logo_icon.svg"
+                            alt="linkedin logo"
+                        />
                         <SocialMediaItem text="josegiron1" href="https://github.com/josegiron1" src="/social_github_icon.svg" alt="linkedin logo" />
                     </div>
                 </div>
