@@ -1,9 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Data } from "@/type";
+import { CommentInfo } from "@/type";
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as examples from "../../../data";
 
-// I thought this would work, but it doesn't. Because there is a limit for analysis
+// I thought this would work, but it doesn't. Because there is a limit for the items analysis
 // const refetchIfNextPageToken = async (id: string, nextPageToken: string, items: any[]) => {
 //     const response = await fetch(
 //         `https://www.googleapis.com/youtube/v3/commentThreads?videoId=${id}&part=snippet&key=${
@@ -30,7 +30,7 @@ import * as examples from "../../../data";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { id } = req.query;
     const items: any[] = [];
-    let dataAnalysis;
+    let commentsClassifications
 
     const response = await fetch(
         `https://www.googleapis.com/youtube/v3/commentThreads?videoId=${id}&part=snippet&key=${process.env.YOUTUBE_API as string}&maxResults=100`
@@ -40,13 +40,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(500).json({ message: "something went wrong getting comments" });
         return;
     }
-    const data = (await response.json()) as Data;
-    data.items.forEach((item) => {
+    const comments = (await response.json()) as CommentInfo;
+    comments.items.forEach((item) => {
         if (items.length >= 75) return;
         items.push(item.snippet.topLevelComment.snippet.textOriginal);
     });
 
-    const dataAnalyze = await fetch("https://api.cohere.ai/classify", {
+    const commentsAnalyzed = await fetch("https://api.cohere.ai/classify", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         body: JSON.stringify({
             inputs: items,
-            examples: examples.data,
+            examples: examples.trainingData,
             model: "large",
             truncate: "END",
             outputIndicator: "Classify this video comments",
@@ -62,11 +62,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }),
     });
 
-    if (!dataAnalyze.ok) {
+    if (!commentsAnalyzed.ok) {
         res.status(500).json({ message: "something went wrong analyzing comments" });
         return;
     }
 
-    dataAnalysis = await dataAnalyze.json();
-    res.status(200).json({ items: dataAnalysis.classifications });
+    commentsClassifications = await commentsAnalyzed.json();
+    res.status(200).json({ items: commentsClassifications.classifications });
 }

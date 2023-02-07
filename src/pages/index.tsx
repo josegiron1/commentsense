@@ -3,6 +3,7 @@ import { useState } from "react";
 import { getCommentsAnalyze } from "@/fetch.service";
 import Image from "next/image";
 import DataPagination from "@/components/DataPagination";
+import SocialMediaItem from "@/components/SocialMediaItem";
 
 export default function Home() {
     const [videoLink, setVideoLink] = useState<string>("");
@@ -36,7 +37,6 @@ export default function Home() {
 
         if (res?.items) {
             setIsLoading(false);
-            setError("Something went wrong. Please try again.");
             setCommentsAnalyze(res?.items);
 
             for (const item of res?.items) {
@@ -88,7 +88,7 @@ export default function Home() {
                         type="text"
                         className={`${
                             !error
-                                ? "border-2 rounded bg-inherit border-black w-full sm:w-1/2"
+                                ? "border-2 rounded-lg block bg-inherit border-black w-full sm:w-1/2 text-sm"
                                 : "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full sm:w-1/2 p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500"
                         }`}
                     />
@@ -135,7 +135,13 @@ export default function Home() {
                 )}
 
                 <div></div>
-                <div></div>
+                <div>
+                    <div className="flex gap-6 justify-center">
+                        <SocialMediaItem text="@gdevmaster" href="https://twitter.com/gdevmaster" src="/52tweet_twitter_twitter logo_icon.svg" alt="twitter logo" />
+                        <SocialMediaItem text="gironjose5" href="https://www.linkedin.com/in/gironjose5/" src="/linkedin_logo_icon.svg" alt="linkedin logo" />
+                        <SocialMediaItem text="josegiron1" href="https://github.com/josegiron1" src="/social_github_icon.svg" alt="linkedin logo" />
+                    </div>
+                </div>
             </main>
         </>
     );

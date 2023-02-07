@@ -1,4 +1,4 @@
-export const data = [
+export const trainingData = [
     { text: "I loved the way you explained that concept!", label: "positive" },
     { text: "Great job on the pacing of this video.", label: "positive" },
     { text: "Your tips were really helpful, thanks!", label: "positive" },
