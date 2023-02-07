@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import * as examples from "../../../data";
 
 // I thought this would work, but it doesn't. Because there is a limit for the items analysis
+// Recursive function to get all the comments from the video
 // const refetchIfNextPageToken = async (id: string, nextPageToken: string, items: any[]) => {
 //     const response = await fetch(
 //         `https://www.googleapis.com/youtube/v3/commentThreads?videoId=${id}&part=snippet&key=${
