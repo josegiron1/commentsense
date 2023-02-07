@@ -27,8 +27,8 @@ export default function Home() {
         setClassifications({ positive: 0, negative: 0, neutral: 0 });
         setCommentsAnalyze(null);
         if (!videoLink) return;
+        const videoId = videoLink.includes("youtu.be") ? videoLink.split("be/")[1] : videoLink.split("v=")[1];
         setIsLoading(true);
-        const videoId = videoLink.split("=")[1];
         if (!videoId) {
             setIsLoading(false);
             setError("Please enter a valid YouTube video link.");
