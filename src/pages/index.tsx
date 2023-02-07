@@ -4,6 +4,12 @@ import { getCommentsAnalyze } from "@/fetch.service";
 import Image from "next/image";
 import DataPagination from "@/components/DataPagination";
 import SocialMediaItem from "@/components/SocialMediaItem";
+import { Open_Sans } from "@next/font/google";
+
+const openSans = Open_Sans({
+    weight: "500",
+    subsets: ["latin"],
+});
 
 export default function Home() {
     const [videoLink, setVideoLink] = useState<string>("");
@@ -63,7 +69,7 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className="min-h-screen flex flex-col justify-between p-6 gap-6 bg-gradient-to-t from-white via-[#dfe9f3]">
+            <main className={`${openSans.className} min-h-screen flex flex-col justify-between p-6 gap-6 bg-gradient-to-t from-white via-[#dfe9f3]`}>
                 <div className="flex justify-center items-center">
                     <Image src="/comment-sense-high-resolution-logo-black-on-transparent-background.png" alt="logo" width={300} height={300} />
                 </div>
