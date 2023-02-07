@@ -1,5 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { CommentInfo } from "@/type";
+import { Comment } from "@/type";
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as examples from "../../../data";
 
@@ -40,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(500).json({ message: "something went wrong getting comments" });
         return;
     }
-    const comments = (await response.json()) as CommentInfo;
+    const comments = (await response.json()) as Comment;
     comments.items.forEach((item) => {
         if (items.length >= 75) return;
         items.push(item.snippet.topLevelComment.snippet.textOriginal);

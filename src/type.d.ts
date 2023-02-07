@@ -1,4 +1,4 @@
-export type CommentInfo = {
+export type Comment = {
   kind: string;
   etag: string;
   nextPageToken: string;
