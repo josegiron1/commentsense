@@ -69,9 +69,17 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className={`${openSans.className} min-h-screen flex flex-col justify-between p-6 gap-6 bg-gradient-to-t from-white via-[#dfe9f3]`}>
+            <main
+                className={`${openSans.className} min-h-screen flex flex-col justify-between 
+            p-6 gap-6 bg-gradient-to-l from-white via-[#dfe9f3] to-[#dfe9f3]`}>
                 <div className="flex justify-center">
-                    <Image src="/comment-sense-high-resolution-logo-black-on-transparent-background.png" alt="logo" width={300} height={300} className="w-auto h-auto" />
+                    <Image
+                        src="/comment-sense-high-resolution-logo-black-on-transparent-background.png"
+                        alt="logo"
+                        width={300}
+                        height={300}
+                        className="w-auto h-auto"
+                    />
                 </div>
                 {!commentsAnalyze && (
                     <div className="flex flex-col gap-3 max-w-[600px] mx-auto">
