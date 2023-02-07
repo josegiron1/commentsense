@@ -15,11 +15,11 @@ const DataPagination = ({ data }: { data: any }) => {
     const handleNextClick = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
 
     return (
-        <div className="max-w-[600px] min-h-[786px] mx-auto py-4 border rounded-md border-zinc-900 mb-6 card flex flex-col justify-between">
+        <div className="md:w-[600px] sm:max-w-[600px]  min-h-[786px] mx-auto py-4 border rounded-lg shadow-lg mb-6 card flex flex-col justify-between">
             <ul className="list-none">
                 {displayedData?.map((item: any, index: any) => (
                     <li key={index} className="px-4 py-2 break-words">
-                        {item.input} - {item.prediction}
+                        {item.input} {item.prediction === "positive" ? "🟢" : item.prediction === "negative" ? "🔴" : "⚫"}
                     </li>
                 ))}
             </ul>
@@ -27,7 +27,7 @@ const DataPagination = ({ data }: { data: any }) => {
                 <button
                     onClick={handlePrevClick}
                     disabled={currentPage === 1}
-                    className="bg-gray-300 hover:bg-gray-400 px-4 py-2 m-2 rounded text-gray-700">
+                    className="bg-black hover:bg-gray-800 px-4 py-2 m-2 rounded text-white">
                     Previous
                 </button>
                 {Array.from(
@@ -38,8 +38,8 @@ const DataPagination = ({ data }: { data: any }) => {
                             <button
                                 key={index}
                                 onClick={() => handlePageChange(index + 1)}
-                                className={`bg-gray-300 hover:bg-gray-400 px-4 py-2 m-2 rounded ${
-                                    currentPage === index + 1 ? "bg-gray-400 text-white" : "text-gray-700"
+                                className={`bg-black hover:bg-gray-800 px-4 py-2 m-2 rounded ${
+                                    currentPage === index + 1 ? "bg-black text-white" : "text-white"
                                 }`}>
                                 {index + 1}
                             </button>
@@ -48,7 +48,7 @@ const DataPagination = ({ data }: { data: any }) => {
                 <button
                     onClick={handleNextClick}
                     disabled={currentPage === totalPages}
-                    className="bg-gray-300 hover:bg-gray-400 px-4 py-2 m-2 rounded text-gray-700">
+                    className="bg-black hover:bg-gray-800 px-4 py-2 m-2 rounded text-white">
                     Next
                 </button>
             </div>
