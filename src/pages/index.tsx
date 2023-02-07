@@ -71,7 +71,7 @@ export default function Home() {
             </Head>
             <main
                 className={`${openSans.className} min-h-screen flex flex-col justify-between 
-            p-6 gap-6 bg-[#dfe9f3`}>
+            p-6 gap-6 bg-[#dfe9f3]`}>
                 <div className="flex justify-center">
                     <Image
                         src="/comment-sense-high-resolution-logo-black-on-transparent-background.png"
